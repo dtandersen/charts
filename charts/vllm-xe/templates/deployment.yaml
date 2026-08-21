@@ -70,7 +70,7 @@ spec:
           resources: {{- include "chart.resources" . | nindent 12 }}
           volumeMounts:
           - name: {{ .Release.Name }}-storage
-            mountPath: /data
+            mountPath: {{ default "/data" .Values.storage.mountPath }}
           {{- if $mtp.enabled }}
           - name: mtp-patches
             mountPath: /patches
@@ -105,7 +105,7 @@ spec:
             memory: 2Gi
         volumeMounts:
         - name: {{ .Release.Name }}-storage
-          mountPath: /data
+          mountPath: {{ default "/data" .Values.storage.mountPath }}
       {{- end }}
       {{- with .Values.extraInit.initContainers }}
       {{- toYaml . | nindent 6 }}
@@ -113,8 +113,14 @@ spec:
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-storage
+          {{- if .Values.storage.hostPath }}
+          hostPath:
+            path: {{ required "storage.hostPath.path must be defined when storage.hostPath is configured" .Values.storage.hostPath.path | quote }}
+            type: {{ default "DirectoryOrCreate" .Values.storage.hostPath.type | quote }}
+          {{- else }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-storage-claim
+          {{- end }}
         {{- if $mtp.enabled }}
         - name: mtp-patches
           configMap:

@@ -1,4 +1,4 @@
-{{-   if .Values.extraInit  }}
+{{-   if and .Values.extraInit (not .Values.storage.hostPath)  }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

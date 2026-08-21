@@ -25,7 +25,7 @@ spec:
       {{- end }}
       volumeMounts:
         - name: {{ .Release.Name }}-storage
-          mountPath: /data
+          mountPath: {{ default "/data" .Values.storage.mountPath }}
       resources:
         requests:
           cpu: 200m
@@ -36,6 +36,12 @@ spec:
     restartPolicy: OnFailure
     volumes:
     - name: {{ .Release.Name }}-storage
+      {{- if .Values.storage.hostPath }}
+      hostPath:
+        path: {{ required "storage.hostPath.path must be defined when storage.hostPath is configured" .Values.storage.hostPath.path | quote }}
+        type: {{ default "DirectoryOrCreate" .Values.storage.hostPath.type | quote }}
+      {{- else }}
       persistentVolumeClaim:
         claimName: "{{ .Release.Name }}-storage-claim"
+      {{- end }}
 {{- end }}
