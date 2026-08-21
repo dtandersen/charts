@@ -15,4 +15,8 @@ data:
 {{ .Files.Get "patches/patch_mtp_boundary.py" | indent 4 }}
   patch_gdn_mixed_split_v5.py: |
 {{ .Files.Get "patches/patch_gdn_mixed_split_v5.py" | indent 4 }}
+  patch_draft_lmhead_int4.py: |
+{{ .Files.Get "patches/patch_draft_lmhead_int4.py" | indent 4 }}
+  patch_draft_mtp_int4.py: |
+{{ .Files.Get "patches/patch_draft_mtp_int4.py" | indent 4 }}
 {{- end }}
