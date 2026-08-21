@@ -13,4 +13,6 @@ data:
 {{ .Files.Get "patches/patch_mtp_nightly.py" | indent 4 }}
   patch_mtp_boundary.py: |
 {{ .Files.Get "patches/patch_mtp_boundary.py" | indent 4 }}
+  patch_gdn_mixed_split_v5.py: |
+{{ .Files.Get "patches/patch_gdn_mixed_split_v5.py" | indent 4 }}
 {{- end }}
