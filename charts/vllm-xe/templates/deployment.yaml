@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: "vllm"
-          image: "{{ required "Required value 'image.repository' must be defined !" .Values.image.repository }}:{{ required "Required value 'image.tag' must be defined !" .Values.image.tag }}"
+          image: "{{ required "Required value 'image.repository' must be defined !" .Values.image.repository }}{{ if contains "sha256:" .Values.image.tag }}@{{ else }}:{{ end }}{{ required "Required value 'image.tag' must be defined !" .Values.image.tag }}"
           {{- if .Values.image.command }}
           command :
             {{- with .Values.image.command }}

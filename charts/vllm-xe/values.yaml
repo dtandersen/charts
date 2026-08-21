@@ -5,7 +5,8 @@
 image:
   # -- Image repository
   repository: "vllm/vllm-openai-xpu"
-  # -- Image tag
+  # -- Image tag or immutable digest reference
+  # Examples: latest or sha256:abc123...
   tag: "latest"
   # -- Container launch command
   command: ["vllm", "serve", "/data/", "--served-model-name", "opt-125m", "--device", "xpu", "--host", "0.0.0.0", "--port", "8000"]
