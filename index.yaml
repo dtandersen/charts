@@ -13,6 +13,17 @@ entries:
     version: 0.1.5
   vllm-xe:
   - apiVersion: v2
+    created: "2026-08-21T15:37:13.793395421Z"
+    description: vLLM deployment for Intel Xe GPUs
+    digest: f1ca182b63b440d4b758db5a027587273d79b5afaa3547d6bd090c80ff3d3a47
+    maintainers:
+    - name: mfournioux
+    name: vllm-xe
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.7/vllm-xe-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
     created: "2026-08-21T14:59:58.041991654Z"
     description: vLLM deployment for Intel Xe GPUs
     digest: b4b0f29fd80f53240c46a8dc0e19f12e21c16d2ac279d54cfc9e902c7c7be3b2
@@ -67,4 +78,4 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
     version: 0.0.2
-generated: "2026-08-21T14:59:58.042018194Z"
+generated: "2026-08-21T15:37:13.793419607Z"
