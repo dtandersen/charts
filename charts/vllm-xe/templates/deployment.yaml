@@ -17,13 +17,19 @@ spec:
       labels:
         {{- include "chart.labels" . | nindent 8 }}
     spec:
+      {{- $mtp := default dict .Values.mtp }}
       containers:
         - name: "vllm"
           image: "{{ required "Required value 'image.repository' must be defined !" .Values.image.repository }}{{ if contains "sha256:" .Values.image.tag }}@{{ else }}:{{ end }}{{ required "Required value 'image.tag' must be defined !" .Values.image.tag }}"
-          {{- if .Values.image.command }}
-          command :
+          {{- if $mtp.enabled }}
+          command:
+            - /patches/entrypoint.sh
+          args:
+            {{- toYaml .Values.image.command | nindent 12 }}
+          {{- else if .Values.image.command }}
+          command:
             {{- with .Values.image.command }}
-            {{- toYaml . | nindent 10 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           {{- end }}
           securityContext:
@@ -65,6 +71,11 @@ spec:
           volumeMounts:
           - name: {{ .Release.Name }}-storage
             mountPath: /data
+          {{- if $mtp.enabled }}
+          - name: mtp-patches
+            mountPath: /patches
+            readOnly: true
+          {{- end }}
 
         {{- with .Values.extraContainers }}
         {{ toYaml . | nindent 8 }}
@@ -103,7 +114,13 @@ spec:
       volumes:
         - name: {{ .Release.Name }}-storage
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-storage-claim     
+            claimName: {{ .Release.Name }}-storage-claim
+        {{- if $mtp.enabled }}
+        - name: mtp-patches
+          configMap:
+            name: {{ .Release.Name }}-mtp-patches
+            defaultMode: 0755
+        {{- end }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
