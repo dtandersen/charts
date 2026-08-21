@@ -11,4 +11,16 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/restic-rest-server-0.1.5/restic-rest-server-0.1.5.tgz
     version: 0.1.5
-generated: "2025-03-19T06:07:51.361536442Z"
+  vllm-xe:
+  - apiVersion: v2
+    created: "2026-08-21T02:00:07.49127044Z"
+    description: vLLM deployment for Intel Xe GPUs
+    digest: 83c0a1b18220e7245ee9db6571d84b125b40a23844543da0dc3c064c30fd5ad3
+    maintainers:
+    - name: mfournioux
+    name: vllm-xe
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
+    version: 0.0.2
+generated: "2026-08-21T02:00:07.491277343Z"
