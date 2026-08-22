@@ -11,6 +11,34 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/restic-rest-server-0.1.5/restic-rest-server-0.1.5.tgz
     version: 0.1.5
+  vllm:
+  - apiVersion: v2
+    appVersion: 0.27.1
+    created: "2026-08-22T03:18:58.995091956Z"
+    dependencies:
+    - name: common
+      repository: oci://oci.trueforge.org/truecharts
+      version: 29.14.2
+    description: vLLM - a fast and easy deployment framework for large language models,
+      exposing an OpenAI-compatible API
+    digest: 5edbc3bbe9a1f52680aeb3958df9bca8fbbd1ce0671039d8433d97f8296fbbde
+    home: https://vllm.ai
+    keywords:
+    - vllm
+    - llm
+    - inference
+    - openai
+    - machine-learning
+    maintainers:
+    - name: dtandersen
+    name: vllm
+    sources:
+    - https://github.com/vllm-project/vllm
+    - https://hub.docker.com/r/vllm/vllm-openai
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
+    version: 0.1.0
   vllm-xe:
   - apiVersion: v2
     created: "2026-08-21T15:37:13.793395421Z"
@@ -78,4 +106,4 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
     version: 0.0.2
-generated: "2026-08-21T15:37:13.793419607Z"
+generated: "2026-08-22T03:18:58.995112664Z"
