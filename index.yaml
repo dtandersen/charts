@@ -11,6 +11,31 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/restic-rest-server-0.1.5/restic-rest-server-0.1.5.tgz
     version: 0.1.5
+  valheim:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-09-12T03:13:57.468678182Z"
+    dependencies:
+    - name: common
+      repository: oci://oci.trueforge.org/truecharts
+      version: 29.14.2
+    description: Valheim dedicated server, installed and updated with SteamCMD
+    digest: 75a82a58723820d988a3d0f9c5cbf89de4c1b78cfb6357e5210a2794ee6351e7
+    home: https://valheim.com/support/a-guide-to-dedicated-servers/
+    keywords:
+    - valheim
+    - steamcmd
+    - game-server
+    maintainers:
+    - name: dtandersen
+    name: valheim
+    sources:
+    - https://github.com/dtandersen/valheim-docker
+    - https://developer.valvesoftware.com/wiki/SteamCMD
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/valheim-0.1.0/valheim-0.1.0.tgz
+    version: 0.1.0
   vllm:
   - apiVersion: v2
     appVersion: 0.27.1
@@ -106,4 +131,4 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
     version: 0.0.2
-generated: "2026-08-22T03:18:58.995112664Z"
+generated: "2026-09-12T03:13:57.468689529Z"
