@@ -1,0 +1,6 @@
+# Helm dependency packages are built by CI, not committed.
+*.tgz
+
+# chart-releaser working directories
+.cr-release-packages/
+.cr-index/
