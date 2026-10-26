@@ -10,8 +10,9 @@ printer:
   # Backend URI. socket/9100 RAW is most reliable for HL-2270DW.
   # Change if your printer DHCP moves.
   deviceUri: socket://192.168.100.1:9100
-  # PPD override, e.g. drv:///brlaser.drv/br2270dw.ppd
-  # Empty means auto-pick 2270dw > brlaser > generpcl (see image entrypoint).
+  # PPD override, e.g. drv:///brlaser.drv/brl2370d.ppd
+  # Empty means auto-pick certified-family 2370dn > 2270dw > brlaser > generpcl
+  # (see image entrypoint). Default advertises a Mopria-certified model.
   ppd: ""
 
 image:

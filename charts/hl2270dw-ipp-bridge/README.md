@@ -26,8 +26,10 @@ These render as the image's `PRINTER_NAME`, `PRINTER_DEVICE_URI`, and
 also the IPP resource path `ipp://<svc>:631/printers/<name>`.
 `printer.deviceUri` is the backend URI — `socket/9100` RAW is most reliable
 for the HL-2270DW; change it if your printer DHCP moves. `printer.ppd`
-overrides the driver (e.g. `drv:///brlaser.drv/br2270dw.ppd`); empty means
-auto-pick 2270dw > brlaser > generpcl.
+overrides the driver (e.g. `drv:///brlaser.drv/brl2370d.ppd`); empty means
+auto-pick certified-family 2370dn > 2270dw > brlaser > generpcl. The default
+advertises the queue as **Brother HL-L2370DN series** (Mopria-certified
+family) rather than the HL-2270DW, which was never certified.
 
 The chart also ships these defaults:
 
@@ -42,8 +44,12 @@ The chart also ships these defaults:
   dirs. Still no root, no capabilities; unprivileged 8631, logs to stderr;
   `/etc/cups`, `/var/spool/cups`, `/var/cache/cups` are writable `emptyDir` mounts
 
-There is no mDNS through Kubernetes, so add the printer in Windows
-manually by URL:
+There is no mDNS through Kubernetes, so Windows cannot discover the bridge
+on its own — and a manually-added URL registers as generic IPP with no
+Mopria shield. For discovery, copy the image's `avahi-bridge.service` to a
+Linux host on the same LAN (replace `%BRIDGE_HOST%` with the bridge's LAN
+IP), remove the manual-URL printer on Windows, and re-add the discovered
+"Brother HL-L2370DN series":
 
 ```text
 http://<bridge-ip>:631/printers/HL2270DW
