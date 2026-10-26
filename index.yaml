@@ -1,5 +1,32 @@
 apiVersion: v1
 entries:
+  hl2270dw-ipp-bridge:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-10-26T19:13:53.34973234Z"
+    dependencies:
+    - name: common
+      repository: oci://oci.trueforge.org/truecharts
+      version: 29.14.2
+    description: CUPS IPP-Everywhere bridge for the Brother HL-2270DW, so Windows
+      11 Protected Print mode can use it
+    digest: 68c1a0064b4b15736fef4bc4084c8f477b17fe9e0d82ed5eef566bc616b4cade
+    home: https://github.com/dtandersen/dockerfiles/tree/main/hl2270dw-ipp-bridge
+    keywords:
+    - printer
+    - ipp
+    - cups
+    - brother
+    - windows-protected-print
+    maintainers:
+    - name: dtandersen
+    name: hl2270dw-ipp-bridge
+    sources:
+    - https://github.com/dtandersen/dockerfiles/tree/main/hl2270dw-ipp-bridge
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/hl2270dw-ipp-bridge-0.1.0/hl2270dw-ipp-bridge-0.1.0.tgz
+    version: 0.1.0
   restic-rest-server:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -131,4 +158,4 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-12T03:13:57.468689529Z"
+generated: "2026-10-26T19:13:53.349768197Z"
