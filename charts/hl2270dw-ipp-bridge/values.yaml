@@ -14,6 +14,8 @@ printer:
   # Empty means auto-pick certified-family 2370dn > 2270dw > brlaser > generpcl
   # (see image entrypoint). Default advertises a Mopria-certified model.
   ppd: ""
+  # Example placeholder. Override per deployment, must match Avahi TXT UUID.
+  uuid: "079ac6e8-ea74-4414-9cc2-0553b5a414c3"
 
 image:
   repository: ghcr.io/dtandersen/hl2270dw-ipp-bridge
@@ -50,6 +52,7 @@ workload:
             PRINTER_NAME: "{{ .Values.printer.name }}"
             PRINTER_DEVICE_URI: "{{ .Values.printer.deviceUri }}"
             PRINTER_PPD: "{{ .Values.printer.ppd }}"
+            PRINTER_UUID: "{{ .Values.printer.uuid }}"
             CUPS_PORT: "8631"
           probes:
             liveness:
