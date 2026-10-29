@@ -12,24 +12,25 @@ in host RAM. The chart is modeled on the `llama-intel` chart: one replica,
 ## Image
 
 Upstream publishes `.deb`/`.rpm` packages only — there is **no upstream
-container image**. The image lives in the dockerfiles repo at
-`xestrata/` (`Dockerfile` + `entrypoint.sh`) and is built from source on
-slim Debian by the `build-xestrata` workflow (300 min timeout for the
-intel/llvm + engine compile) on pushes touching that directory:
+container image**. The image lives in the dockerfiles repo at `xestrata/`
+(`Dockerfile` + `entrypoint.sh`): Ubuntu 26.04 with upstream's prebuilt
+`contrib` package, checksum-verified against the release `SHA256SUMS`. There is
+no compile step, so `setup.py` finds the engine already built and the pod's
+first start only downloads the model (60–110 GB) and writes its config.
 
 ```text
-ghcr.io/dtandersen/xestrata:xe0.1.43.1
+ghcr.io/dtandersen/xestrata:main
 ```
 
-Free (free-software-only), Intel-only build: intel/llvm DPC++ built from
-source, XeStrata's own XMX kernels for the dense products (no oneMKL, no
-CUDA, no ROCm). The image ships a pre-warmed source tree — engine already
-compiled and `BUILD.json` stamped — so the pod's first start only downloads
-the model (60–110 GB) and writes its config instead of recompiling.
-Intel Level Zero userspace is pinned to the 26 series (lists Battlemage).
-Text-only: the image encoders are not built, so `xestrata.vision` must stay
-`"no"`. Keep the workflow `TAG`, `image.tag` here, and `appVersion` in
-`Chart.yaml` in lockstep; the workflow passes `TAG` as `XESTRATA_REF`.
+The build workflow tags by branch (`main`) and commit SHA; upstream releases
+are selected by the Dockerfile `XESTRATA_REF`/`XESTRATA_VARIANT` build args,
+not by image tag. `appVersion` in `Chart.yaml` tracks `XESTRATA_REF`; the
+default `image.tag` tracks the branch.
+
+Intel userspace is pinned in the image (compute-runtime 26.35, IGC 2.41.5):
+Ubuntu 26.04's compute-runtime has a device-memory bug and IGC 2.27–2.30
+miscompile on Battlemage. The server starts text-only (`xestrata.vision: "no"`);
+enabling vision needs an encoder on the GPU and costs about 0.9 GB.
 
 ## Values
 
@@ -41,27 +42,30 @@ xestrata:
   model: IQ2_XS   # IQ2_XS fits ~48 GB RAM; IQ3_S needs ~64 GB
   contextSize: 32768
   vision: "no"
-  port: 8095
-  apiKey: ""      # optional; stored in a Secret when set
+  dataDir: /data      # must match persistence.data.mountPath
+  configDir: /config  # must match persistence.config.mountPath
+  apiKey: ""      # optional; empty leaves the server unauthenticated
 ```
 
-The server exposes port `80` targeting container port `8095` (`/v1` is the
-OpenAI-compatible base URL, `/health` is the probe endpoint). Model files live
-in the `data` volume (`/data`, default hostPath `/var/cache/xestrata/data`)
-and settings in the `config` volume (`/config`). The first start downloads
-60-110 GB, so the startup probe allows ~2 hours before failing.
+`model` and `contextSize` are setup-time only: changing them means deleting the
+generated `config/xestrata/xestrata-*.json`, which otherwise pins the old
+setup. The server always listens on container port `8095` — there is no port
+override — and the Service maps port `80` to it (`/v1` is the OpenAI-compatible
+base URL, `/health` is the probe endpoint). Model files live in the `data`
+volume (`/data`, default hostPath `/var/cache/xestrata/data`) and settings in
+the `config` volume (`/config`). The first start downloads 60-110 GB, so the
+startup probe allows ~2 hours before failing.
 
 GPU, memory, and placement defaults target the B70 on `kube-2`:
 
 ```yaml
 resources:
   requests:
-    cpu: 2
+    cpu: 100m
     memory: 32Gi
     gpu.intel.com/xe: 1
   limits:
-    cpu: 8
-    memory: 60Gi
+    memory: 32Gi
     gpu.intel.com/xe: 1
 
 podOptions:
@@ -69,10 +73,12 @@ podOptions:
     kubernetes.io/hostname: kube-2
 ```
 
-Do not schedule alongside `vllm-qwen38` or `llama-intel` — all three want the
-same single B70. All other values are supplied by the TrueCharts common chart
-(see its [documentation](https://truecharts.org/common/) for `persistence`,
-`service`, `ingress`, `certificate`, `extraTpl`, and security contexts).
+The memory request must cover the weights — below that the engine aborts with a
+RAM/VRAM shortfall after loading. Do not schedule alongside `vllm-qwen38` or
+`llama-intel` — all three want the same single B70. All other values are
+supplied by the TrueCharts common chart (see its
+[documentation](https://truecharts.org/common/) for `persistence`, `service`,
+`ingress`, `certificate`, `extraTpl`, and security contexts).
 
 ## Helmfile
 
@@ -84,7 +90,7 @@ release values, disabled sibling release while testing):
 releases:
   - name: xestrata
     chart: ../charts/charts/xestrata
-    namespace: vllm
+    namespace: xestrata
     values:
       - releases/xestrata/values.yaml
 ```
