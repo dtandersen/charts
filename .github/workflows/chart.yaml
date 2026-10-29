@@ -17,6 +17,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # charts/netbird is a submodule; check it out so dependency
+          # vendoring and chart-releaser see the chart contents.
+          submodules: true
 
       - name: Configure Git
         run: |
