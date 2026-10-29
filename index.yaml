@@ -158,4 +158,35 @@ entries:
     urls:
     - https://github.com/dtandersen/charts/releases/download/vllm-xe-0.0.2/vllm-xe-0.0.2.tgz
     version: 0.0.2
-generated: "2026-10-26T19:13:53.349768197Z"
+  xestrata:
+  - apiVersion: v2
+    appVersion: xe0.2.2-1
+    created: "2026-10-29T08:05:42.960616179Z"
+    dependencies:
+    - name: common
+      repository: oci://oci.trueforge.org/truecharts
+      version: 29.14.2
+    description: XeStrata - run Qwen3.8-Flash-Next (125B MoE) on Intel Arc, AMD Radeon,
+      or NVIDIA GPUs with an OpenAI-compatible API
+    digest: 40b060388d94840660d24d575c426a762641c9b7d5d958bd7c73c09f94b6aa93
+    home: https://github.com/MistVVK/XeStrata
+    keywords:
+    - xestrata
+    - strata
+    - llm
+    - inference
+    - openai
+    - intel
+    - sycl
+    - moe
+    maintainers:
+    - name: dtandersen
+    name: xestrata
+    sources:
+    - https://github.com/MistVVK/XeStrata
+    - https://github.com/Niko1221/Strata
+    type: application
+    urls:
+    - https://github.com/dtandersen/charts/releases/download/xestrata-0.1.1/xestrata-0.1.1.tgz
+    version: 0.1.1
+generated: "2026-10-29T08:05:42.960634997Z"
